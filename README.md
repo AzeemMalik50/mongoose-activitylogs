@@ -1,6 +1,9 @@
 # mongoose-activitylogs
 
 Plugin for Mongoose which create activitylogs collection and craete automatically  mongo documents for activity logs.
+Automate log creation by utilizing plugins for common libraries such as Mongoose (CRUD logging via model plugin).
+
+
 
 ## Installation
 
