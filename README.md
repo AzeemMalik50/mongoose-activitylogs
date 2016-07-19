@@ -20,8 +20,8 @@ Automate log creation by utilizing plugins for common libraries such as Mongoose
        AppSchema.plugin(mongooseLog, {
        schemaName: "app",
        createAction: "Created",
-       updateAction: "modified/Updated",
-        deleteAction: "Deleted/Removed"
+       updateAction: "Updated",
+        deleteAction: "Deleted" 
     });
      mongoose.model('App', app);
 
