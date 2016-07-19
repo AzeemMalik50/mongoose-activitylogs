@@ -12,7 +12,7 @@ Automate log creation by utilizing plugins for common libraries such as Mongoose
 
 ## Usage
 
-     var mongooseLogs = require('mongoose-logs');
+     var mongooseLogs = require('mongoose-activitylogs');
       AppSchema = new mongoose.Schema({
          app_id:
          type: String
@@ -25,6 +25,6 @@ Automate log creation by utilizing plugins for common libraries such as Mongoose
     });
      mongoose.model('App', app);
 
-Your payload should have modifiedBy which contains the refrence id of current user.
+Your payload should have modifiedBy property which contains the refrence id of current user.
 
      payload.modifiedBy = req.user._id;
