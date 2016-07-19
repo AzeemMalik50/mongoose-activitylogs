@@ -7,12 +7,14 @@ Automate log creation by utilizing plugins for common libraries such as Mongoose
 
 ## Installation
 
+
     npm install mongoose-activitylogs
 
 
 ## Usage
 
-     var mongooseLogs = require('mongoose-activitylogs');
+```javascript
+var mongooseLogs = require('mongoose-activitylogs');
       AppSchema = new mongoose.Schema({
          app_id:
          type: String
@@ -21,15 +23,81 @@ Automate log creation by utilizing plugins for common libraries such as Mongoose
        schemaName: "app",
        createAction: "Created",
        updateAction: "Updated",
-        deleteAction: "Deleted" 
+       deleteAction: "Deleted" 
     });
      mongoose.model('App', app);
+```
 
 Your payload should have modifiedBy property which contains the refrence id of current user.
 
      payload.modifiedBy = req.user._id;
      
      
+     
+     And here's some code example! :+1:
+
+```javascript
+var express = require('express');
+var app = express();
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var mongooseLogs = require('mongoose-activitylogs');
+
+var BlogPost = new Schema({
+    author    : ObjectId,
+    title     : String,
+    body      : String,
+    date      : Date
+});
+
+BlogPost.plugin(mongooseLogs, {
+       schemaName: "blogpost",
+       createAction: "Posted",
+       updateAction: "Updated",
+       deleteAction: "Removed" 
+    }
+/*  Your Payload */
+ req.body={
+    author    : ObjectId,
+    title     : "Post Title",
+    body      : "Post Body",
+    date      :  new Date
+    } 
+    
+app.post('/post', function (req, res) {
+ var poayload = req.body;
+ 
+ /*
+ modifiedBy should be ObjectId that refer to the current authenticated user 
+ who is performing this action. 
+ */
+ 
+ payload.modifiedBy = req.user._id;
+ var post = new BlogPost(payload);
+ post.save();
+ 
+ /* After save a document will be inserted automatically in your activitylogs collection
+ your activitylog document would be like :
+
+ {
+    "_id" : ObjectId,
+    "collectionType" : "blogpost",
+    "refereceId" : ObjectId,
+    "action" : "Posted",
+    "loggedBy" : ObjectId,
+    "createdAt" : ISODate,
+    "__v" : 0
+}   
+ */
+  res.send('POST request to create a post');
+});
+```
+
+     
+     
+     
+     
+
 # License
 
 
