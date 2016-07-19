@@ -48,7 +48,7 @@ function mongooseLogsPlugin(schema, options) {
     schema.post('save', function(doc, next) {
 
         var AL = new ActivityLog({
-            collectionType: 'schema',
+            collectionType: options.schemaName,
             refereceId: this._id,
             action: options.createAction || 'created',
             loggedBy: this.modifiedBy,
