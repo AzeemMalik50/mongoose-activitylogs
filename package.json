@@ -11,7 +11,7 @@
     "url": "git+https://github.com/azeemamanat/mongoose-activitylogs.git"
   },
   "author": "Azeem Malik",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/azeemamanat/mongoose-activitylogs/issues"
   },
