@@ -5,15 +5,12 @@ var activityLog = new Schema({
 
     collectionType: {
         type: 'String',
-        required: true
     },
     refereceId: {
         type: Schema.Types.ObjectId,
-        required: true
     },
     action: {
         type: 'String',
-        required: true
     },
 
     message: {
@@ -21,7 +18,6 @@ var activityLog = new Schema({
     },
     loggedBy: {
         type: Schema.Types.ObjectId,
-        required: true,
         ref: 'User'
     },
     createdAt: {
@@ -81,9 +77,9 @@ function mongooseLogsPlugin(schema, options) {
 
         var activity = {
             collectionType: options.schemaName,
-            refereceId: this._update.$set._id,
+            refereceId: doc._id,
             action: options.updateAction || 'updated',
-            loggedBy: this._update.$set.modifiedBy,
+            loggedBy: doc.modifiedBy,
             createdAt: Date.now()
         };
 
