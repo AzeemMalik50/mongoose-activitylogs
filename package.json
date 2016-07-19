@@ -15,6 +15,7 @@
   "bugs": {
     "url": "https://github.com/azeemamanat/mongoose-activitylogs/issues"
   },
+  "readme":"https://github.com/azeemamanat/mongoose-activitylogs/edit/master/README.md",
   "homepage": "https://github.com/azeemamanat/mongoose-activitylogs#readme",
   "devDependencies": {
     "mongoose": "^4.5.4"
