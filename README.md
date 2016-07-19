@@ -34,7 +34,7 @@ Your payload should have modifiedBy property which contains the refrence id of c
      
      
      
-     And here's some code example! :+1:
+And here's some code example! :+1:
 
 ```javascript
 var express = require('express');
