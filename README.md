@@ -21,16 +21,16 @@ var mongooseLogs = require('mongoose-activitylogs');
        });
        AppSchema.plugin(mongooseLog, {
        schemaName: "app",
-       createAction: "Created",
-       updateAction: "Updated",
-       deleteAction: "Deleted" 
+       createAction: "created",
+       updateAction: "updated",
+       deleteAction: "deleted" 
     });
      mongoose.model('App', app);
 ```
 
 Your payload should have modifiedBy property which contains the refrence id of current user.
 
-     payload.modifiedBy = req.user._id;
+     payload.modifiedBy = req.user;
      
      
      
@@ -50,11 +50,18 @@ var BlogPost = new Schema({
     date      : Date
 });
 
+var user = new Schema({
+    firstName: String,
+    lastName: String,
+    password: String,
+    email: String  
+});
+
 BlogPost.plugin(mongooseLogs, {
        schemaName: "blogpost",
-       createAction: "Posted",
-       updateAction: "Updated",
-       deleteAction: "Removed" 
+       createAction: "posted",
+       updateAction: "updated",
+       deleteAction: "removed" 
     }
 /*  Your Payload */
  req.body={
@@ -65,14 +72,23 @@ BlogPost.plugin(mongooseLogs, {
     } 
     
 app.post('/post', function (req, res) {
+
+/* 
+req.user = {
+firstName:"jhon",
+lastName: "Doe",
+password:"UserPassword",
+email:"UserEmail" 
+}
+*/
  var poayload = req.body;
  
  /*
- modifiedBy should be ObjectId that refer to the current authenticated user 
+ modifiedBy should be user Object that refer to the current authenticated user 
  who is performing this action. 
  */
  
- payload.modifiedBy = req.user._id;
+ payload.modifiedBy = req.user;// or req.session.user;
  var post = new BlogPost(payload);
  post.save();
  
@@ -82,9 +98,19 @@ app.post('/post', function (req, res) {
  {
     "_id" : ObjectId,
     "collectionType" : "blogpost",
-    "refereceId" : ObjectId,
+    "refereceDocument" : {// object 
+                           author    : ObjectId,
+                           title     : "Post Title",
+                           body      : "Post Body",
+                           date      :  new Date
+                         };
     "action" : "Posted",
-    "loggedBy" : ObjectId,
+    "loggedBy" : {//object
+                           firstName:"jhon",
+                           lastName: "Doe",
+                           password:"UserPassword",
+                           email:"UserEmail" 
+                        },,
     "createdAt" : ISODate,
     "__v" : 0
 }   
