@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/azeemamanat/mongoose-activitylogs.svg?branch=master)](https://travis-ci.org/azeemamanat/mongoose-activitylogs)
-
 # mongoose-activitylogs
 
 Plugin for Mongoose which create activitylogs collection and craete automatically  mongo documents for activity logs.
