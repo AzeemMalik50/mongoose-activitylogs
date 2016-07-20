@@ -119,7 +119,18 @@ email:"UserEmail"
 });
 ```
 
-     
+## Query ActivityLogs
+
+```javascript
+var ActivityModel = require('mongoose-activitylogs/activity-model');
+
+// find query 
+ActivityModel.find({},function(err,activities){
+
+console.log(activities);
+
+}
+```
      
      
      
