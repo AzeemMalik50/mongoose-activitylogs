@@ -5,7 +5,7 @@ var activityLog = new Schema({
     collectionType: {
         type: 'String',
     },
-    refereceDocument: {
+    referenceDocument: {
         
     },
     action: {
