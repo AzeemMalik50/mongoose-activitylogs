@@ -17,7 +17,7 @@ function mongooseLogsPlugin(schema, options) {
 
         var AL = new ActivityLog({
             collectionType: options.schemaName,
-            refereceDocument: this,
+            referenceDocument: this,
             action: options.createAction || 'created',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
@@ -35,7 +35,7 @@ function mongooseLogsPlugin(schema, options) {
             createdAt: Date.now()
         };
         if (this._update.$set && this._update.$set.modifiedBy) {
-            activity.refereceDocument = this._update.$set;
+            activity.referenceDocument = this._update.$set;
             activity.loggedBy = this._update.$set.modifiedBy;
         }
 
@@ -51,7 +51,7 @@ function mongooseLogsPlugin(schema, options) {
 
         var activity = {
             collectionType: options.schemaName,
-            refereceDocument: doc,
+            referenceDocument: doc,
             action: options.updateAction || 'updated',
             loggedBy: doc.modifiedBy,
             createdAt: Date.now()
@@ -68,7 +68,7 @@ function mongooseLogsPlugin(schema, options) {
     schema.post('findOneAndRemove', function(doc, next) {
         var activity = {
             collectionType: options.schemaName,
-            refereceDocument: this,
+            referenceDocument: this,
             action: options.deleteAction || 'deleted',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
@@ -84,7 +84,7 @@ function mongooseLogsPlugin(schema, options) {
     schema.post('remove', function(doc, next) {
         var activity = {
             collectionType: options.schemaName,
-            refereceDocument: this,
+            referenceDocument: this,
             action: options.deleteAction || 'deleted',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
