@@ -14,10 +14,11 @@ function mongooseLogsPlugin(schema, options) {
     });
 
     schema.post('save', function(doc, next) {
-
+        var refrenceDocument = this._doc;
+        delete refrenceDocument.modifiedBy;
         var AL = new ActivityLog({
             collectionType: options.schemaName,
-            referenceDocument: this,
+            referenceDocument: refrenceDocument,
             action: options.createAction || 'created',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
@@ -35,11 +36,10 @@ function mongooseLogsPlugin(schema, options) {
             createdAt: Date.now()
         };
         if (this._update.$set && this._update.$set.modifiedBy) {
-            activity.referenceDocument = this._update.$set;
+            var refrenceDocument = this._update.$set;
+            delete refrenceDocument.modifiedBy;
+            activity.referenceDocument = refrenceDocument;
             activity.loggedBy = this._update.$set.modifiedBy;
-        }
-        else if(this._update.$pushAll){
-            activity.referenceDocument = this._update.$pushAll;
         }
 
         var AL = new ActivityLog(activity);
@@ -51,10 +51,11 @@ function mongooseLogsPlugin(schema, options) {
 
 
     schema.post('findOneAndUpdate', function(doc, next) {
-
+        var refrenceDocument = doc;
+        delete refrenceDocument.modifiedBy;
         var activity = {
             collectionType: options.schemaName,
-            referenceDocument: doc,
+            referenceDocument: refrenceDocument,
             action: options.updateAction || 'updated',
             loggedBy: doc.modifiedBy,
             createdAt: Date.now()
@@ -69,9 +70,12 @@ function mongooseLogsPlugin(schema, options) {
 
 
     schema.post('findOneAndRemove', function(doc, next) {
+        var refrenceDocument = doc;
+        delete refrenceDocument.modifiedBy;
+
         var activity = {
             collectionType: options.schemaName,
-            referenceDocument: this,
+            referenceDocument: refrenceDocument,
             action: options.deleteAction || 'deleted',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
@@ -85,9 +89,12 @@ function mongooseLogsPlugin(schema, options) {
 
 
     schema.post('remove', function(doc, next) {
+        var refrenceDocument = this._doc;
+        delete refrenceDocument.modifiedBy;
+
         var activity = {
             collectionType: options.schemaName,
-            referenceDocument: this,
+            referenceDocument: refrenceDocument,
             action: options.deleteAction || 'deleted',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
