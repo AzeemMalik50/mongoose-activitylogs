@@ -40,7 +40,10 @@ function mongooseLogsPlugin(schema, options) {
             delete refrenceDocument.modifiedBy;
             activity.referenceDocument = refrenceDocument;
             activity.loggedBy = this._update.$set.modifiedBy;
+        } else if (this._update.$pushAll) {
+            activity.referenceDocument = this._update.$pushAll;
         }
+
 
         var AL = new ActivityLog(activity);
         AL.save(function(err, alog) {
