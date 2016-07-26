@@ -77,9 +77,6 @@ function mongooseLogsPlugin(schema, options) {
 
 
     schema.post('findOneAndRemove', function(doc, next) {
-        var refrenceDocument = doc;
-        delete refrenceDocument.modifiedBy;
-
         var activity = {
             collectionType: options.schemaName,
             referenceDocument: refrenceDocument,
@@ -96,9 +93,7 @@ function mongooseLogsPlugin(schema, options) {
 
 
     schema.post('remove', function(doc, next) {
-        var refrenceDocument = this._doc;
-        delete refrenceDocument.modifiedBy;
-
+       
         var activity = {
             collectionType: options.schemaName,
             referenceDocument: refrenceDocument,
