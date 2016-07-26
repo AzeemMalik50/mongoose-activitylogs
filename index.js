@@ -39,7 +39,7 @@ function mongooseLogsPlugin(schema, options) {
         if (this._update.$set && this._update.$set.modifiedBy) {
 
             refrenceDocument = this._update.$set;
-            activity.refereceDocument = this._update.$set;
+            activity.referenceDocument = this._update.$set;
 
             activity.loggedBy = this._update.$set.modifiedBy;
         } else if (this._update.$pushAll) {
