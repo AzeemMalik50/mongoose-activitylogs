@@ -14,7 +14,7 @@ function mongooseLogsPlugin(schema, options) {
     });
 
     schema.post('save', function(doc, next) {
-
+        var refrenceDocument = this._doc;
         var AL = new ActivityLog({
             collectionType: options.schemaName,
             refereceDocument: this,
@@ -23,11 +23,13 @@ function mongooseLogsPlugin(schema, options) {
             createdAt: Date.now()
         });
         AL.save(function(err, alog) {
+            delete refrenceDocument.modifiedBy;
             return next();
         });
     });
 
     schema.post('update', function(doc, next) {
+        var refrenceDocument = {};
 
         var activity = {
             collectionType: options.schemaName,
@@ -35,12 +37,14 @@ function mongooseLogsPlugin(schema, options) {
             createdAt: Date.now()
         };
         if (this._update.$set && this._update.$set.modifiedBy) {
+            refrenceDocument = this._update.$set;
             activity.refereceDocument = this._update.$set;
             activity.loggedBy = this._update.$set.modifiedBy;
         }
 
         var AL = new ActivityLog(activity);
         AL.save(function(err, alog) {
+            delete refrenceDocument.modifiedBy;
             return next();
         });
 
@@ -48,7 +52,7 @@ function mongooseLogsPlugin(schema, options) {
 
 
     schema.post('findOneAndUpdate', function(doc, next) {
-
+        var refrenceDocument = doc;
         var activity = {
             collectionType: options.schemaName,
             refereceDocument: doc,
@@ -59,6 +63,7 @@ function mongooseLogsPlugin(schema, options) {
 
         var AL = new ActivityLog(activity);
         AL.save(function(err, alog) {
+        delete refrenceDocument.modifiedBy;            
             return next();
         });
 
