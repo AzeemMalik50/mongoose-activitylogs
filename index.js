@@ -22,7 +22,6 @@ function mongooseLogsPlugin(schema, options) {
             createdAt: Date.now()
         });
         AL.save(function(err, alog) {
-            delete refrenceDocument.modifiedBy;
             return next();
         });
     });
@@ -46,7 +45,6 @@ function mongooseLogsPlugin(schema, options) {
 
         var AL = new ActivityLog(activity);
         AL.save(function(err, alog) {
-
             return next();
         });
 
@@ -67,12 +65,10 @@ function mongooseLogsPlugin(schema, options) {
 
         var AL = new ActivityLog(activity);
         AL.save(function(err, alog) {
-            delete refrenceDocument.modifiedBy;
             return next();
         });
 
     });
-
 
     schema.post('findOneAndRemove', function(doc, next) {
         var activity = {
