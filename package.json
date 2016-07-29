@@ -1,6 +1,6 @@
 {
   "name": "mongoose-activitylogs",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,8 @@
   "homepage": "https://github.com/azeemamanat/mongoose-activitylogs#readme",
   "devDependencies": {
     "mongoose": "^4.5.4"
+  },
+  "dependencies": {
+    "mongoose": "^4.5.7"
   }
 }
