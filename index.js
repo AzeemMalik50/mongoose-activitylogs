@@ -3,79 +3,75 @@ var Schema = mongoose.Schema;
 var ActivityLog = require('./activity-model');
 
 
-
 function mongooseLogsPlugin(schema, options) {
 
-
     schema.add({
-        modifiedBy: {
-
-        }
+        modifiedBy: {}
     });
-
+    // create action logs
     schema.post('save', function(doc, next) {
-
-        var AL = new ActivityLog({
+        var refrenceDocument = Object.assign({}, this._doc);
+        delete refrenceDocument.modifiedBy;
+        var ALog = new ActivityLog({
             collectionType: options.schemaName,
-            referenceDocument: this,
+            referenceDocument: refrenceDocument,
             action: options.createAction || 'created',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
         });
-        AL.save(function(err, alog) {
+        ALog.save(function(err, aLog) {
             return next();
         });
     });
-
+// update action logs
     schema.post('update', function(doc, next) {
-
         var activity = {
             collectionType: options.schemaName,
             action: options.updateAction || 'updated',
             createdAt: Date.now()
         };
         if (this._update.$set && this._update.$set.modifiedBy) {
-            activity.referenceDocument = this._update.$set;
+            var refrenceDocument = Object.assign({}, this._update.$set);
+            delete refrenceDocument.modifiedBy;
+
             activity.loggedBy = this._update.$set.modifiedBy;
+        } else if (this._update.$pushALogl) {
+            activity.referenceDocument = this._update.$pushALogl;
         }
 
-        var AL = new ActivityLog(activity);
-        AL.save(function(err, alog) {
+        var ALog = new ActivityLog(activity);
+        ALog.save(function(err, aLog) {
             return next();
         });
-
     });
 
 
     schema.post('findOneAndUpdate', function(doc, next) {
-
+        var refrenceDocument = Object.assign({}, doc);
+        delete refrenceDocument.modifiedBy;
         var activity = {
             collectionType: options.schemaName,
-            referenceDocument: doc,
+            referenceDocument: refrenceDocument,
             action: options.updateAction || 'updated',
             loggedBy: doc.modifiedBy,
             createdAt: Date.now()
         };
-
-        var AL = new ActivityLog(activity);
-        AL.save(function(err, alog) {
+        var ALog = new ActivityLog(activity);
+        ALog.save(function(err, aLog) {
             return next();
         });
-
     });
-
-
+ // create logs for delete action
     schema.post('findOneAndRemove', function(doc, next) {
         var activity = {
             collectionType: options.schemaName,
-            referenceDocument: this,
+            referenceDocument: refrenceDocument,
             action: options.deleteAction || 'deleted',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
         };
-
-        var AL = new ActivityLog(activity);
-        AL.save(function(err, alog) {
+        var ALog = new ActivityLog(activity);
+        ALog.save(function(err, aLog) {
             return next();
         });
     });
@@ -84,14 +80,13 @@ function mongooseLogsPlugin(schema, options) {
     schema.post('remove', function(doc, next) {
         var activity = {
             collectionType: options.schemaName,
-            referenceDocument: this,
+            referenceDocument: refrenceDocument,
             action: options.deleteAction || 'deleted',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
         };
-
-        var AL = new ActivityLog(activity);
-        AL.save(function(err, alog) {
+        var ALog = new ActivityLog(activity);
+        ALog.save(function(err, aLog) {
             return next();
         });
     });
