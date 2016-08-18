@@ -8,7 +8,7 @@ Automate log creation by utilizing plugins for common libraries such as Mongoose
 ## Installation
 
 
-    npm install mongoose-activitylogs -save
+    npm install mongoose-activitylogs --save
 
 
 ## Usage
