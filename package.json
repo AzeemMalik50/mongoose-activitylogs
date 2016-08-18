@@ -1,11 +1,18 @@
 {
   "name": "mongoose-activitylogs",
-  "version": "2.1.12",
+  "version": "2.1.13",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+   "keywords": [
+    "Mongoose",
+    "logger",
+    "activity",
+    "watcher",
+    "logs"
+   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/azeemamanat/mongoose-activitylogs.git"
