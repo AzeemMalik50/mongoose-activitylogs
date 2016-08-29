@@ -8,6 +8,7 @@ function mongooseLogsPlugin(schema, options) {
     schema.add({
         modifiedBy: {}
     });
+    
     // create action logs
     schema.post('save', function(doc, next) {
         var refrenceDocument = Object.assign({}, this._doc);
