@@ -8,7 +8,7 @@ function mongooseLogsPlugin(schema, options) {
     schema.add({
         modifiedBy: {}
     });
-    
+
     // create action logs
     schema.post('save', function(doc, next) {
         var refrenceDocument = Object.assign({}, this._doc);
@@ -24,7 +24,7 @@ function mongooseLogsPlugin(schema, options) {
             return next();
         });
     });
-// update action logs
+    // update action logs
     schema.post('update', function(doc, next) {
         var activity = {
             collectionType: options.schemaName,
@@ -34,7 +34,7 @@ function mongooseLogsPlugin(schema, options) {
         if (this._update.$set && this._update.$set.modifiedBy) {
             var refrenceDocument = Object.assign({}, this._update.$set);
             delete refrenceDocument.modifiedBy;
-
+            activity.referenceDocument = refrenceDocument;
             activity.loggedBy = this._update.$set.modifiedBy;
         } else if (this._update.$pushALogl) {
             activity.referenceDocument = this._update.$pushALogl;
