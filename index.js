@@ -24,6 +24,7 @@ function mongooseLogsPlugin(schema, options) {
             return next();
         });
     });
+
     // update action logs
     schema.post('update', function(doc, next) {
         var activity = {
@@ -46,7 +47,6 @@ function mongooseLogsPlugin(schema, options) {
         });
     });
 
-
     schema.post('findOneAndUpdate', function(doc, next) {
         var refrenceDocument = Object.assign({}, doc);
         delete refrenceDocument.modifiedBy;
@@ -62,11 +62,12 @@ function mongooseLogsPlugin(schema, options) {
             return next();
         });
     });
- // create logs for delete action
+
+    // create logs for delete action
     schema.post('findOneAndRemove', function(doc, next) {
         var activity = {
             collectionType: options.schemaName,
-            referenceDocument: refrenceDocument,
+            referenceDocument: doc,
             action: options.deleteAction || 'deleted',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
@@ -77,11 +78,10 @@ function mongooseLogsPlugin(schema, options) {
         });
     });
 
-
     schema.post('remove', function(doc, next) {
         var activity = {
             collectionType: options.schemaName,
-            referenceDocument: refrenceDocument,
+            referenceDocument: doc,
             action: options.deleteAction || 'deleted',
             loggedBy: this.modifiedBy,
             createdAt: Date.now()
