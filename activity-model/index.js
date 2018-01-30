@@ -6,7 +6,7 @@ var activityLog = new Schema({
         type: 'String',
     },
     referenceDocument: {
-        
+        type: Schema.Types.Mixed
     },
     action: {
         type: 'String',
