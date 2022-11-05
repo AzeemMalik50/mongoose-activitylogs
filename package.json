@@ -6,13 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-   "keywords": [
+  "keywords": [
     "Mongoose",
     "logger",
     "activity",
     "watcher",
     "logs"
-   ],
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/azeemamanat/mongoose-activitylogs.git"
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/azeemamanat/mongoose-activitylogs#readme",
   "devDependencies": {
+    "eslint": "^8.26.0",
     "mongoose": "^6.7.1"
   }
 }
