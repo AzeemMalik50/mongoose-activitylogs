@@ -1,7 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var activityLog = new Schema({
-
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const activityLog = new Schema({
     collectionType: {
         type: 'String',
     },
@@ -16,12 +15,11 @@ var activityLog = new Schema({
         type: 'String'
     },
     loggedBy: {
-        
+
     },
     createdAt: {
         type: 'Date'
     }
 });
 
-
- module.exports= mongoose.model('activityLog', activityLog);
+module.exports = mongoose.model('activityLog', activityLog);
