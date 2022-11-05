@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/azeemamanat/mongoose-activitylogs#readme",
   "devDependencies": {
-    "mongoose": "^4.5.4"
+    "mongoose": "^6.7.1"
   }
 }
